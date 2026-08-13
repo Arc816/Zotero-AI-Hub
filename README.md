@@ -136,3 +136,6 @@ OpenAI、Anthropic、Gemini、DeepSeek、通义千问、文心一言、Kimi、Op
 - `src/modules/views`：Zotero 菜单、工具栏、设置页、聊天与输出面板。
 - `src/modules/mcp`：内嵌 MCP JSON-RPC 服务。
 - `addon/content`：随 XPI 打包的界面和构建产物。
+## 制作不易欢迎打赏
+<img width="1259" height="1714" alt="11087f8f00e93ec74cc8dae416ce92af" src="https://github.com/user-attachments/assets/6cb5ec58-4c0f-4c32-ae9b-dfe76936a4e3" />
+
