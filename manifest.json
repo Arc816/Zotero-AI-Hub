@@ -1,0 +1,16 @@
+{
+  "manifest_version": 2,
+  "name": "Zotero AI Hub",
+  "version": "1.4.5",
+  "description": "多厂商 AI 增强插件：文献摘要、智能批注、问答对话、翻译/思维导图/综述，并内嵌 MCP 服务桥接外部 AI 客户端。",
+  "homepage_url": "https://www.zoteroaihub.cn",
+  "author": "Wang Mr",
+  "applications": {
+    "zotero": {
+      "id": "zotero-ai-hub@zoteroaihub",
+      "update_url": "https://www.zoteroaihub.cn/zotero-ai-hub/update.json",
+      "strict_min_version": "6.999",
+      "strict_max_version": "10.*"
+    }
+  }
+}

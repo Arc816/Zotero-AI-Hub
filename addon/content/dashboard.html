@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html id="aihub-dashboard" lang="zh">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="chrome://aiHub/content/dashboard.css" />
+    <title>Zotero AI Hub 设置</title>
+    <script type="application/javascript" src="chrome://aiHub/content/scripts/dashboard-init.js"></script>
+  </head>
+  <body>
+    <header>
+      <h1>Zotero AI Hub</h1>
+      <p class="sub">多厂商 AI 增强 · 文献摘要 / 智能批注 / 问答 / 思维导图 / 综述 · 内嵌 MCP</p>
+    </header>
+
+    <section>
+      <h2>AI 厂商（Providers）<span class="help-tip" title="如何添加厂商：① 在下方下拉框选择厂商类型 → ② 点「+ 添加厂商」→ ③ 在表格里填入 API Key / 模型 → ④ 点「测试」验证连通 → ⑤ 勾选「启用」，点行内单选钮设为默认 → ⑥ 点底部「保存设置」。">ⓘ</span></h2>
+      <p class="hint">支持 OpenAI / Anthropic / Gemini / DeepSeek / 通义千问 / 文心一言 / Kimi / Ollama 本地 / OpenRouter / 自定义兼容端点。可设优先级与故障转移。<br/>
+      <b>切换厂商类型</b>：修改表格中该行「类型」下拉框后，Base URL 与默认模型会自动填充（若原值为空）；填写 API Key 后点「测试」确认连通。</p>
+      <p class="hint" style="background:#eef6ff;border:1px solid #cfe2ff;padding:8px 10px;border-radius:6px">
+        <b>本地 Ollama 用法</b>：① 类型选 <b>Ollama</b>；② Base URL 填 <b>http://localhost:11434</b>（默认已填）；③ API Key <b>可留空</b>；④ 默认模型填 Ollama 中的模型名（如 <b>llama3</b>，需先在终端执行 <code>ollama pull llama3</code> 下载）；⑤ 确保 Ollama 正在运行且允许本机访问（部分系统需在 Ollama 设置中开启 LAN/CORS）。
+      </p>
+      <div class="table-scroll">
+      <table id="providers-table">
+        <thead>
+          <tr>
+            <th>名称</th><th>类型</th><th>Base URL</th><th>API Key</th>
+            <th>默认模型</th><th>优先级</th><th>启用</th><th>操作</th>
+          </tr>
+        </thead>
+        <tbody id="providers-tbody"></tbody>
+      </table>
+      </div>
+      <div class="row">
+        <div id="preset-kind" class="aihub-select"></div>
+        <button id="add-provider">+ 添加厂商</button>
+        <button id="test-all">测试全部连通性</button>
+        <button id="clear-providers" class="danger">删除全部厂商</button>
+      </div>
+    </section>
+
+    <section>
+      <h2>功能设置</h2>
+      <div class="grid">
+        <label title="采样温度，0=保守/确定，1=有创意，建议 0.2~0.8">temperature
+          <input id="f-temperature" type="number" step="0.1" min="0" max="2" placeholder="0.7" />
+        </label>
+        <label title="单次生成的最大 token 数，越长越贵、越慢；普通摘要 1024~4096 足够">max_tokens
+          <input id="f-maxTokens" type="number" step="256" min="256" placeholder="4096" />
+        </label>
+        <label title="关闭后，AI 结果只保存在右侧文献会话中；需要时再点击“保存笔记”">
+          <span>自动创建 Zotero 笔记</span>
+          <input id="f-autoSaveNotes" type="checkbox" />
+        </label>
+        <label title="AI 回复使用什么语言；「自动」跟随提示词或系统语言">输出语言
+          <div id="f-outputLanguage" class="aihub-select"></div>
+        </label>
+        <label title="有多个已启用厂商时如何选择：优先级=按表格 priority 从低到高；轮询=轮流使用">路由策略
+          <div id="f-routingStrategy" class="aihub-select"></div>
+        </label>
+        <label class="check" title="当前厂商请求失败（网络/鉴权/超时）时，自动改用下一个已启用厂商">故障转移（失败自动切换）
+          <input id="f-fallbackEnabled" type="checkbox" />
+        </label>
+      </div>
+      <label class="block" title="追加到每次请求的系统提示词，可写风格/角色约束，留空则用默认">系统提示词（可选）
+        <textarea id="f-systemPrompt" rows="2" placeholder="例如：你是严谨的科研助手，回答需标注出处"></textarea>
+      </label>
+    </section>
+
+    <section>
+      <h2>库内语义检索（RAG，可选）<span class="help-tip" title="RAG 让问答能检索你文献库的内容作为上下文。步骤：① 勾选「启用 RAG」→ ② 填 Embedding API 与 Key（一般与主厂商相同）→ ③ 在文献库选中若干条目 → ④ 点「索引当前文献库」→ ⑤ 保存。之后「AI 问答」会自动检索相关片段。">ⓘ</span></h2>
+      <div class="grid">
+        <label class="check" title="启用后，AI 问答/摘要会先在本库做语义检索，把相关文献片段拼进上下文">启用 RAG
+          <input id="rag-enabled" type="checkbox" />
+        </label>
+        <label title="OpenAI 兼容的向量接口地址，例如 https://api.openai.com/v1/embeddings；Ollama 为 http://localhost:11434/v1/embeddings">Embedding API（/v1/embeddings）
+          <input id="rag-embeddingApi" placeholder="https://api.openai.com/v1/embeddings" />
+        </label>
+        <label title="与 Embedding API 配套的密钥；本地 Ollama 可留空">Embedding Key
+          <input id="rag-embeddingKey" type="password" placeholder="sk-..." />
+        </label>
+        <label title="向量模型名，OpenAI 推荐 text-embedding-3-small；Ollama 常用 nomic-embed-text">Embedding 模型
+          <input id="rag-embeddingModel" placeholder="text-embedding-3-small" />
+        </label>
+        <label title="每次问答最多召回多少条相关片段，1~20，越大越全但更耗 token">Top-K
+          <input id="rag-topK" type="number" min="1" max="20" placeholder="5" />
+        </label>
+        <label title="当前文献=只检索正在阅读的论文；当前选择=检索文献库中选中的条目；整个索引库=检索所有已索引文献">问答检索范围
+          <div id="rag-scope" class="aihub-select"></div>
+        </label>
+      </div>
+      <div class="row"><button id="rag-index">索引当前文献库</button><span id="rag-status" class="status"></span></div>
+    </section>
+
+    <section>
+      <h2>内嵌 MCP 服务<span class="help-tip" title="MCP 让外部 AI 客户端（WorkBuddy / Claude / Cursor 等）通过本插件读写 Zotero。① 勾选「启用 MCP」→ ② 记下端口（默认 23121）→ ③ 保存 → ④ 在客户端添加 MCP 服务器 http://127.0.0.1:23121/mcp。">ⓘ</span></h2>
+      <p class="hint">在本地暴露 JSON-RPC（Streamable HTTP）端点，使外部 AI 客户端（WorkBuddy / Claude / Cursor）经本插件驱动 Zotero。</p>
+      <div class="grid">
+        <label class="check" title="是否启动本地 MCP 服务；关闭后外部客户端将无法连接">启用 MCP
+          <input id="mcp-enabled" type="checkbox" />
+        </label>
+        <label title="监听端口，默认 23121；与其它插件冲突时改一个（如 23122）并重启服务">端口
+          <input id="mcp-port" type="number" min="1024" max="65535" placeholder="23121" />
+        </label>
+        <label class="check" title="允许非本机的客户端连接；仅在可信网络开启，否则有安全风险">允许远程访问
+          <input id="mcp-allowRemote" type="checkbox" />
+        </label>
+        <label class="check" title="允许外部客户端执行写操作（新建条目/修改笔记等）；只读问答可关闭">允许写操作
+          <input id="mcp-write" type="checkbox" />
+        </label>
+      </div>
+      <div class="row"><button id="mcp-restart">重启服务</button><span id="mcp-status" class="status"></span></div>
+    </section>
+
+    <section>
+      <h2>提示词模板<span class="help-tip" title="各功能的提示词模板，{{text}} / {{context}} / {{target}} 是占位符，保存后立即生效。误改可恢复默认值。">ⓘ</span></h2>
+      <div id="prompts-area"></div>
+    </section>
+
+    <footer>
+      <span id="status" class="status"></span>
+      <button id="save-btn">保存设置</button>
+    </footer>
+  </body>
+</html>

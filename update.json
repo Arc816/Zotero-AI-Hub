@@ -1,0 +1,12 @@
+{
+  "addons": {
+    "zotero-ai-hub@zoteroaihub": {
+      "updates": [
+        {
+          "version": "1.4.5",
+          "update_link": "https://example.com/zotero-ai-hub.xpi"
+        }
+      ]
+    }
+  }
+}

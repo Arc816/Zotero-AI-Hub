@@ -1,0 +1,5 @@
+node_modules/
+addon/content/scripts/aiHub.js
+addon/content/scripts/aiHub.js.map
+*.xpi
+.DS_Store

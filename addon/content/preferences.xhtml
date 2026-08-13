@@ -1,0 +1,22 @@
+<linkset xmlns:html="http://www.w3.org/1999/xhtml">
+  <html:link rel="localization" href="aiHub.ftl" />
+</linkset>
+
+<vbox xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+      xmlns:html="http://www.w3.org/1999/xhtml"
+      flex="1" style="overflow: auto; padding: 20px">
+  <groupbox>
+    <caption data-l10n-id="aiHub-prefs-title" />
+    <description data-l10n-id="aiHub-prefs-description" style="margin-bottom: 15px" />
+    <vbox>
+      <button id="aiHub-openDashboard"
+              data-l10n-id="aiHub-prefs-open-dashboard"
+              oncommand="Zotero.AIHub.views.dashboard.openDashboard() || Zotero.getMainWindow().openDialog('chrome://aiHub/content/dashboard.html','aihub-dashboard','chrome,width=900,height=740,resizable=yes')"
+              style="padding: 10px 20px; font-size: 14px; font-weight: bold" />
+      <description data-l10n-id="aiHub-prefs-open-dashboard-help"
+                   style="margin-top: 8px; color: #666; font-size: 12px" />
+      <description data-l10n-id="aiHub-prefs-howto"
+                   style="margin-top: 12px; color: #444; font-size: 12px; white-space: pre-wrap" />
+    </vbox>
+  </groupbox>
+</vbox>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" id="aihub-chat">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="chrome://aiHub/content/dashboard.css" />
+    <title>Zotero AI Hub · 问答</title>
+    <style>
+      body { padding: 10px; }
+      #context { width: 100%; height: 120px; }
+      #question { width: 100%; height: 48px; }
+      #output { width: 100%; height: 320px; background: #fafafa; white-space: pre-wrap; }
+      .row { display: flex; gap: 8px; margin-top: 6px; }
+    </style>
+    <script type="application/javascript" src="chrome://aiHub/content/scripts/chat-init.js"></script>
+  </head>
+  <body>
+    <h2>AI 问答（基于当前选中文献）</h2>
+    <label>文献上下文<textarea id="context"></textarea></label>
+    <label>你的问题<textarea id="question" placeholder="输入问题后点击发送…"></textarea></label>
+    <div class="row">
+      <button id="send">发送</button>
+      <span id="status" class="status"></span>
+    </div>
+    <label>对话<textarea id="output" readonly="readonly"></textarea></label>
+  </body>
+</html>

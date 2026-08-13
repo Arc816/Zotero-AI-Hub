@@ -1,0 +1,17 @@
+{
+  "name": "zotero-ai-hub",
+  "version": "1.4.5",
+  "description": "Multi-vendor research assistant for Zotero 7-10 with source-aware summary, annotation, Q&A, RAG, and MCP",
+  "author": "Wang Mr",
+  "license": "MIT",
+  "scripts": {
+    "build": "node esbuild.config.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "node scripts/smoke-test.mjs",
+    "xpi": "node esbuild.config.mjs && node make-xpi.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "^0.21.5",
+    "typescript": "^5.9.3"
+  }
+}
