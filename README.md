@@ -116,7 +116,7 @@ OpenAI、Anthropic、Gemini、DeepSeek、通义千问、文心一言、Kimi、Op
 ## 安装与配置
 
 1. 在 Zotero 中打开“工具 → 插件”，拖入 `zotero-ai-hub.xpi`。
-2. 重启 Zotero；如果已安装旧版本，确认插件页显示版本 1.4.2。
+2. 重启 Zotero；如果已安装旧版本，确认插件页显示版本为最新版本。
 3. 打开“Zotero AI Hub 设置”，选择厂商类型并添加。
 4. 填写 Base URL、API Key 和模型；Ollama 的 API Key 可留空。
 5. 点击“测试”，通过后设为默认并点击“保存设置”。
